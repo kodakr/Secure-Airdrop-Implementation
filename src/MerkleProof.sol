@@ -11,13 +11,7 @@ library MerkleProof {
     @param proof Array of proofs
     @param root is root of tree
      */
-    // @audit break the algorithm
-    // @audit assumes proof array are all valid.
-    // @audit security significance of index.
-    // @audit multiple claim. bypass check. 
-
-    // @audit advocates hashing twice Why?
-    // @audit use Assembly to hash.
+    
 
     function verify(bytes32[] memory proof, bytes32 root, bytes32 leaf) internal pure returns(bool,uint256) {
         bytes32 computedHash = leaf;
@@ -37,14 +31,24 @@ library MerkleProof {
     }
 
     /**
-    bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(addr, amount)))); 
-    nb: bytes.concat simply avoids memory. otherwise we have to copy to memory
+    =========SECURITY===========
+    `bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(addr, amount))));` 
+    @note : bytes.concat simply avoids memory. otherwise we have to copy to memory
     double hash prevents 2nd preimage attack (2nd preimage resistant). This creates a fundamental diff btw:
         - A leaf node
         - An intermediary node
     Hence leaves are double-hashed while intermediate nodes are single-hashed
+
+    Verification assumes proof array are all valid. else.....
+
+    Whats the security significance of index.?
+
+    For multiple claim, can check be bypass? 
+
+    Use Assembly to hash (for less gas)
     
      */
-
     
+    
+            
 }
